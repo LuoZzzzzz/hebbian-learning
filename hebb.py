@@ -42,8 +42,12 @@ class NeuralNetwork:
     def __init__(self, size=10, input_size=2, threshold=1.0):
         self.neurons = [Neuron(threshold) for _ in range(size)]
         self.input_neurons = [Neuron(threshold, is_input=True) for _ in range(input_size)]
-        self.positions = np.random.rand(size, 2)
-        self.input_positions = np.random.rand(input_size, 2)
+        # self.positions = np.random.rand(size, 2) # random neuron positions
+        # self.input_positions = np.random.rand(input_size, 2) # random input neuron positions
+        self.positions = np.vstack((np.cos(np.linspace(start=0, stop=2*np.pi, num=size, endpoint=False)), \
+                                    np.sin(np.linspace(start=0, stop=2*np.pi, num=size, endpoint=False)) + 1.2)).T
+        self.input_positions = np.vstack((np.linspace(start=-0.5, stop=0.5, num=input_size, endpoint=True), \
+                                           np.zeros(input_size))).T
 
     def connect_randomly(self, connection_probability=0.3, weight_range=(0.5, 1.5)):
         for neuron in self.neurons + self.input_neurons:

@@ -75,11 +75,11 @@ def animate(network, input_neuron_history, neuron_history):
         
         # Plot weights for neurons
         for i, neuron in enumerate(network.neurons):
-                for conn, _ in neuron.connections:
+                for conn, weight in neuron.connections:
                     j = (network.neurons).index(conn)
                     plt.plot([neuron_positions[i, 0], neuron_positions[j, 0]],
                             [neuron_positions[i, 1], neuron_positions[j, 1]],
-                            "gray", alpha=0.5, zorder=1)
+                            "gray", alpha=weight/5, zorder=1)
                     
         # Plot weights for input neurons
         for i, neuron in enumerate(network.input_neurons):
@@ -87,7 +87,7 @@ def animate(network, input_neuron_history, neuron_history):
                     j = (network.neurons).index(conn)
                     plt.plot([input_neuron_positions[i, 0], neuron_positions[j, 0]],
                             [input_neuron_positions[i, 1], neuron_positions[j, 1]],
-                            "gray", alpha=weight/10, zorder=1)
+                            "gray", alpha=weight/5, zorder=1)
         
         plt.title("Iteration " + str(idx))
         plt.axis("off")
@@ -95,3 +95,41 @@ def animate(network, input_neuron_history, neuron_history):
 
         clear_output(wait=True)
         time.sleep(0.1)
+
+
+"""
+Plots the connections between neurons in the network.
+
+Inputs:
+network: NeuralNetwork object
+"""
+def plot_connections(network):
+    
+    input_neuron_positions = network.input_positions
+    neuron_positions = network.positions
+
+    # Plot input neurons
+    plt.scatter(input_neuron_positions[:, 0], input_neuron_positions[:, 1], s=100, c="green", edgecolor='black', zorder=3)
+
+    # Plot neurons
+    plt.scatter(neuron_positions[:, 0], neuron_positions[:, 1], s=100, c="blue", edgecolor='black', zorder=3)
+    
+    # Plot weights for neurons
+    for i, neuron in enumerate(network.neurons):
+            for conn, weight in neuron.connections:
+                j = (network.neurons).index(conn)
+                plt.plot([neuron_positions[i, 0], neuron_positions[j, 0]],
+                        [neuron_positions[i, 1], neuron_positions[j, 1]],
+                        "gray", alpha=weight/5, zorder=1)
+                
+    # Plot weights for input neurons
+    for i, neuron in enumerate(network.input_neurons):
+            for conn, weight in neuron.connections:
+                j = (network.neurons).index(conn)
+                plt.plot([input_neuron_positions[i, 0], neuron_positions[j, 0]],
+                        [input_neuron_positions[i, 1], neuron_positions[j, 1]],
+                        "gray", alpha=weight/5, zorder=1)
+    
+    plt.title("Neuron connections")
+    plt.axis("off")
+    plt.show()
