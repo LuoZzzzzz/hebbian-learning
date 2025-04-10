@@ -104,7 +104,7 @@ Inputs:
 network: NeuralNetwork object
 """
 def plot_connections(network):
-    
+    plt.figure(figsize=(10, 10), dpi=300)
     input_neuron_positions = network.input_positions
     neuron_positions = network.positions
 
